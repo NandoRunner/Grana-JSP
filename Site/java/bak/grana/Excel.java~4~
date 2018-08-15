@@ -1,0 +1,59 @@
+package grana;
+
+//import java.util.*;
+
+public class Excel extends GDB{
+
+  private String SQL;
+  private Util util = new Util();
+
+  public Excel() {
+  }
+
+
+  public Vector montaRelatorio(String mes) {
+
+    SQL = "SELECT D.nomeDespesa, format(Sum(G.valor), '#,###.00')  AS ValTotal, " +
+          "ano, mes, FORMAT(diaPadrao, '00') as dd, receita " +
+          "FROM gasto AS G, despesa AS D " +
+          "WHERE G.idDespesa=D.idDespesa " +
+          "and D.especial = true " +
+		  "AND mes = " + mes +
+		  " GROUP BY D.nomeDespesa, FORMAT(diaPadrao, '00'), ano, mes, receita " +
+    " UNION SELECT C.nomeCategoria, format(Sum(G.valor), '#,###.00')  AS ValTotal, " +
+          "ano, mes, '99' as dd, false " +
+          "FROM gasto AS G, despesa AS D, categoria AS C " +
+          "WHERE G.idDespesa=D.idDespesa " +
+          "AND D.idCategoria=C.idCategoria " +
+          "AND D.especial = false " +
+		  "AND mes = " + mes +
+          " GROUP BY  C.nomeCategoria, ano, mes " +
+          "ORDER BY dd";
+
+    Vector v = new Vector();
+
+    try {
+      rs = stm.executeQuery(SQL);
+
+      while (rs.next()) {
+        TabExcel tab = new TabExcel();
+        tab.setNome(rs.getString("nomeDespesa"));
+        tab.setValor(rs.getString("valTotal"));
+        tab.setDia(rs.getString("dd"));
+        tab.setMes(rs.getString("mes"));
+        tab.setReceita(rs.getBoolean("receita"));
+
+		v.addElement(tab);
+      }
+
+      rs.close();
+      return v;
+
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return v;
+    }
+
+  }
+
+}

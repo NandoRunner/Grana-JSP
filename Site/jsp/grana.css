@@ -1,0 +1,17 @@
+A
+{
+    FONT-WEIGHT: bolder;
+    FONT-SIZE: x-small;
+    COLOR: #669dda;
+    FONT-FAMILY: Arial;
+    TEXT-DECORATION: none
+}
+.on
+{
+    TEXT-DECORATION: underline
+}
+.off
+{
+    TEXT-DECORATION: none
+}
+

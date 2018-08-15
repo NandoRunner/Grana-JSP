@@ -1,0 +1,115 @@
+package grana;
+
+import javax.servlet.http.*;
+import java.util.*;
+
+public class Gasto extends GDB{
+
+  private String SQL;
+  private Util util = new Util();
+
+  public Gasto() {
+  }
+
+
+// Insere
+  public boolean insere(HttpServletRequest req) {
+
+    if (!(util.eValido(req.getParameter("valor"))))
+      return false;
+
+    SQL = "SELECT idDespesa FROM Despesa WHERE nomeDespesa ='" +
+      req.getParameter("idDespesa") + "'";
+
+    int id = buscaID(SQL, "idDespesa");
+
+    if (id == 0)
+      return false;
+
+    SQL = "INSERT INTO Gasto (idDespesa, valor, dia, mes, ano, info) VALUES(" +
+          id + ", " +
+          req.getParameter("valor") + ", " +
+          req.getParameter("dia") + ", " +
+          req.getParameter("mes") + ", " +
+          req.getParameter("ano") + ", '" +
+          req.getParameter("info") + "')";
+
+    return insereRegistro(SQL);
+  }
+
+  public Vector montaLista() {
+
+    SQL = "SELECT nomeDespesa, format(valor, '#,###.00') as val, (dia " +
+          " & '/' & mes & '/' & ano) as dt, receita, especial " +
+          "FROM Gasto,  Despesa " +
+          "WHERE Gasto.idDespesa = Despesa.idDespesa " +
+          "ORDER BY ano desc, mes desc, dia desc, nomeDespesa";
+
+    Vector v = new Vector();
+
+    try {
+      rs = stm.executeQuery(SQL);
+      while (rs.next()) {
+        TabGasto tab = new TabGasto();
+        tab.setNomeDespesa(rs.getString("nomeDespesa"));
+        tab.setValor(rs.getString("val"));
+        tab.setData(rs.getString("dt"));
+        tab.setReceita(rs.getBoolean("receita"));
+        tab.setEspecial(rs.getBoolean("especial"));
+        v.addElement(tab);
+      }
+
+      rs.close();
+      return v;
+
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return v;
+    }
+
+  }
+
+  public Vector montaRelatorioExcel() {
+
+    SQL = "SELECT D.nomeDespesa, format(Sum(G.valor), '#,###.00')  AS ValTotal, " +
+          "ano, mes, FORMAT(diaPadrao, '00') as dd, receita " +
+          "FROM gasto AS G, despesa AS D " +
+          "WHERE G.idDespesa=D.idDespesa " +
+          "and D.especial = true " +
+          "GROUP BY D.nomeDespesa, FORMAT(diaPadrao, '00'), ano, mes, receita " +
+    " UNION SELECT C.nomeCategoria, format(Sum(G.valor), '#,###.00')  AS ValTotal, " +
+          "ano, mes, '99' as dd, false " +
+          "FROM gasto AS G, despesa AS D, categoria AS C " +
+          "WHERE G.idDespesa=D.idDespesa " +
+          "AND D.idCategoria=C.idCategoria " +
+          "AND D.especial = false " +
+          "GROUP BY  C.nomeCategoria, ano, mes " +
+          "ORDER BY dd";
+
+    Vector v = new Vector();
+
+    try {
+      rs = stm.executeQuery(SQL);
+
+      while (rs.next()) {
+        TabExcel tab = new TabExcel();
+        tab.setNome(rs.getString("nomeDespesa"));
+        tab.setValor(rs.getString("valTotal"));
+        tab.setDia(rs.getString("dd"));
+        tab.setMes(rs.getString("mes"));
+        tab.setReceita(rs.getBoolean("receita"));
+
+		v.addElement(tab);
+      }
+
+      rs.close();
+      return v;
+
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return v;
+    }
+
+  }
+
+}

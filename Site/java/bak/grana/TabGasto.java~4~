@@ -1,0 +1,59 @@
+package grana;
+
+public class TabGasto {
+
+  private String nomeDespesa;
+  private float valor;
+  private String data;
+  private boolean receita;
+  private boolean especial;
+
+  public TabGasto() {
+  }
+
+  public void setNomeDespesa(String s) {
+    nomeDespesa = s;
+  }
+
+  public void setValor(float f) {
+    valor = f;
+  }
+
+  public void setData(String s) {
+    data = s;
+  }
+
+  public void setReceita(boolean b) {
+    receita = b;
+  }
+
+  public void setEspecial(boolean b) {
+    especial = b;
+  }
+
+  public String getNomeDespesa() {
+    return nomeDespesa;
+  }
+
+  public String getValor() {
+    return valor;
+  }
+
+  public float getValorF() {
+    return valorF;
+  }
+
+
+  public String getData() {
+    return data;
+  }
+
+  public boolean getReceita() {
+    return receita;
+  }
+
+  public boolean getEspecial() {
+    return especial;
+  }
+
+}

@@ -1,0 +1,45 @@
+package grana;
+
+/**
+ * <p>Title: </p>
+ * <p>Description: </p>
+ * <p>Copyright: Copyright (c) 2003</p>
+ * <p>Company: </p>
+ * @author unascribed
+ * @version 1.0
+ */
+
+public class TabExcel {
+  private String nome;
+  private String valor;
+  private String dia;
+
+  public TabExcel() {
+  }
+
+  public void setNome(String s) {
+    nome = s;
+  }
+
+  public void setValor(String s) {
+    valor = s;
+  }
+
+  public void setDia(String s) {
+    dia = s;
+  }
+
+  public String getNome() {
+    return nome;
+  }
+
+  public String getValor() {
+    return valor;
+  }
+
+  public String getDia() {
+    return dia;
+  }
+
+
+}

@@ -1,0 +1,32 @@
+package grana;
+
+/**
+ * <p>Title: </p>
+ * <p>Description: </p>
+ * <p>Copyright: Copyright (c) 2003</p>
+ * <p>Company: </p>
+ * @author unascribed
+ * @version 1.0
+ */
+
+public class Util {
+
+  public Util() {
+  }
+
+  public boolean eValido(String s) {
+
+    if (s == null) {
+ //     System.out.println("a");
+      return false;
+    } else if (s.equals("")) {
+ //     System.out.println("b");
+      return false;
+    } else {
+ //     System.out.println("c");
+      return true;
+    }
+
+  }
+}
+

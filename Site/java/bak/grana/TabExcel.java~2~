@@ -1,0 +1,64 @@
+package grana;
+
+
+public class TabExcel {
+  private String	nome;
+  private String	valor;
+  private float valorF;
+  private String	dia;
+  private String	mes;
+  private boolean	receita;
+
+  public TabExcel() {
+  }
+
+  public void setNome(String s) {
+    nome = s;
+  }
+
+  public void setValor(String s) {
+    valor = s;
+  }
+
+  public void setValorF(float f) {
+    valorF = f;
+  }
+
+  public void setDia(String s) {
+    dia = s;
+  }
+
+  public void setMes(String s) {
+    mes = s;
+  }
+
+  public void setReceita(boolean b) {
+    receita = b;
+  }
+
+  public String getNome() {
+    return nome;
+  }
+
+  public String getValor() {
+    return valor;
+  }
+
+  public float getValorF() {
+    return valorF;
+  }
+
+  public String getDia() {
+    return dia;
+  }
+
+  public String getMes() {
+    return mes;
+  }
+
+  public boolean getReceita() {
+    return receita;
+  }
+
+
+}
